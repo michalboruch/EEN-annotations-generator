@@ -15,6 +15,6 @@ class UserInput:
 
     @staticmethod
     def get_camera_data():
-        camera_esn = input("Provide camera esn: ") or "10094619"
+        camera_esn = input("Provide camera esn: ")
         namespace = int(input("Provide namespace (default: 102): ") or 102)
         return camera_esn, namespace
