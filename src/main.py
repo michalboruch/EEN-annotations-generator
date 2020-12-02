@@ -33,9 +33,8 @@ if __name__ == "__main__":
         print("iterating:")
 
         annotation_data = get_annotation_data()
-        api.create_annotation(annotation_data, camera_esn, namespace)
-
         status_code = api.create_annotation(annotation_data, camera_esn, namespace)
+
         if status_code == 200:
             print("Created annotation, sleeping for 10s.")
             time.sleep(10)
