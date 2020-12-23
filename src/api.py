@@ -13,10 +13,20 @@ class API:
     def __init__(self, username, password):
         self.username = username
         self.password = password
-        self.token = self.authenticate()
-        self.auth_key = self.authorization()
+        self.auth_key = self.auth_api()
 
-    def authenticate(self):
+    def auth_api(self):
+        auth_key = None
+        try:
+            token = self._authenticate()
+            auth_key = self._authorize(token)
+        except Exception as e:
+            print(f"{e}")
+        if not auth_key:
+            sys.exit()
+        return auth_key
+
+    def _authenticate(self):
         """
         Authenticate the User.
 
@@ -27,10 +37,11 @@ class API:
             data={"username": self.username, "password": self.password},
         )
         if r.status_code != 200:
-            sys.exit("Authentication failed.")
+            print(r.text)
+            raise Exception("Authentication failed.")
         return r.json()["token"]
 
-    def authorization(self):
+    def _authorize(self, token):
         """
         Authorize the User.
 
@@ -38,10 +49,10 @@ class API:
         """
         r = requests.post(
             "https://login.eagleeyenetworks.com/g/aaa/authorize",
-            data={"token": self.token},
+            data={"token": token},
         )
         if r.status_code != 200:
-            sys.exit("Authorization failed.")
+            raise Exception("Authorization failed.")
         return r.cookies["auth_key"]
 
     def create_annotation(self, data, camera_esn, namespace):

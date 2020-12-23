@@ -6,7 +6,7 @@ import json
 import random
 import string
 
-from resources import labels
+from resources import labels, texts
 
 
 def get_box_dimensions():
@@ -36,6 +36,8 @@ def get_random_color(chars="ABCDEF" + string.digits):
 def get_random_floats(start=0, stop=1):
     return sorted([random.uniform(start, stop), random.uniform(start, stop)])
 
+def get_random_text():
+    return random.choice(texts)
 
 def get_annotation_data():
     return json.dumps(
@@ -44,9 +46,9 @@ def get_annotation_data():
                 "b": get_box_dimensions(),
                 "d": "",
                 "l": get_random_label(),
-                "lt": get_random_thickness(),  # add random thickness
+                "lt": get_random_thickness(),
                 "sc": get_random_color(),
-                "t": "foo",
+                "t": get_random_text(),
                 "tt": "tool tip",
                 "tw": "43",
                 "u": "https://google.com",
